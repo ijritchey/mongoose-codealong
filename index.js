@@ -208,7 +208,7 @@ app.delete('/posts/:title', (req, res) => {
 
 // Comments CRUD routes
 
-// Find all posts route
+// Find all Comments route
 app.get('/comments', (req, res) => {
     Comment.find({})
         .then(comments => {
@@ -221,7 +221,7 @@ app.get('/comments', (req, res) => {
         });
 });
 
-// Find one post (by header) route
+// Find one comment (by header) route
 app.get('/comments/:header', (req, res) => {
     console.log('find user by', req.params.header)
     Comment.findOne({
@@ -237,7 +237,7 @@ app.get('/comments/:header', (req, res) => {
         });
 });
 
-// Create One post route
+// Create One comment route
 app.post('/comments', (req, res) => {
     Comment.create({
         header: req.body.header,
@@ -254,7 +254,7 @@ app.post('/comments', (req, res) => {
         });
 });
 
-// Update one post (by title) route
+// Update one comment (by header) route
 app.put('/comments/:header', (req, res) => {
     console.log('route is being on PUT')
     Comment.findOne({ header: req.params.header })
@@ -282,7 +282,7 @@ app.put('/comments/:header', (req, res) => {
 
 });
 
-// Delete one post (by title) route
+// Delete one comment (by header) route
 app.delete('/comments/:header', (req, res) => {
     Comment.findOneAndRemove({ email: req.params.header })
         .then(response => {
