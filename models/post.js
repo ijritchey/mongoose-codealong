@@ -1,26 +1,15 @@
-const mongoose = require("mongoose");
-const { commentSchema } = require('./comment');
+const mongoose = require('mongoose');
 
-// Define a schema
-const Schema = mongoose.Schema;
-
-// const commentSchema = new Schema({
-//     header: String,
-//     content: String,
-//     date: Date
-// });
-
-const postSchema = new Schema({
+const postSchema = new mongoose.Schema({
     title: String,
     body: String,
-    comment: [commentSchema],
+    // embbeded
+    // comments: [commentSchema],
+    // reference
     refComments: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Comments'
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Comment'
     }]
 });
 
-const Post = mongoose.model('Post', postSchema);
-
-// make this available to our other files
-module.exports = Post;
+module.exports = mongoose.model('Post', postSchema);
