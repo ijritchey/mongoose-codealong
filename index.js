@@ -47,7 +47,7 @@ app.get('/users/:email', (req, res) => {
         email: req.params.email
     })
         .then(user => {
-            console.log('Here is the user', user.name);
+            console.log('Here is the user', user);
             res.json({ user: user });
         })
         .catch(error => {
@@ -135,7 +135,7 @@ app.get('/posts', (req, res) => {
 
 // Find one post (by title) route
 app.get('/posts/:title', (req, res) => {
-    console.log('find user by', req.params.title)
+    console.log('find post by', req.params.title)
     Post.findOne({
         title: req.params.title
     })
@@ -168,17 +168,17 @@ app.post('/posts', (req, res) => {
 // Update one post (by title) route
 app.put('/posts/:title', (req, res) => {
     console.log('route is being on PUT')
-    User.findOne({ title: req.params.title })
+    Post.findOne({ title: req.params.title })
         .then(foundPost => {
-            console.log('User found', foundPost);
+            console.log('Post found', foundPost);
             Post.findOneAndUpdate({ title: req.params.title },
                 {
                     title: req.body.title ? req.body.title : foundPost.title,
                     body: req.body.body ? req.body.body : foundPost.body,
                 })
                 .then(post => {
-                    console.log('User was updated', post);
-                    res.redirect(`/users/${req.params.title}`)
+                    console.log('Post was updated', post);
+                    res.redirect(`/posts/${req.params.title}`)
                 })
                 .catch(error => {
                     console.log('error', error)
@@ -194,7 +194,7 @@ app.put('/posts/:title', (req, res) => {
 
 // Delete one post (by title) route
 app.delete('/posts/:title', (req, res) => {
-    User.findOneAndRemove({ email: req.params.title })
+    Post.findOneAndRemove({ email: req.params.title })
         .then(response => {
             console.log('This was delete', response);
             res.json({ message: `${req.params.title} was deleted` });
@@ -259,7 +259,7 @@ app.put('/comments/:header', (req, res) => {
     console.log('route is being on PUT')
     Comment.findOne({ header: req.params.header })
         .then(foundComment => {
-            console.log('User found', foundPost);
+            console.log('Comment found', foundComment);
             Comment.findOneAndUpdate({ header: req.params.header },
                 {
                     header: req.body.header ? req.body.header : foundComment.header,
@@ -267,8 +267,8 @@ app.put('/comments/:header', (req, res) => {
                     date: req.body.date ? req.body.date : foundComment.date
                 })
                 .then(comment => {
-                    console.log('User was updated', comment);
-                    res.redirect(`/users/${req.params.header}`)
+                    console.log('comment was updated', comment);
+                    res.redirect(`/comments/${req.params.header}`)
                 })
                 .catch(error => {
                     console.log('error', error)
