@@ -238,20 +238,30 @@ app.get('/comments/:header', (req, res) => {
 });
 
 // Create One comment route
-app.post('/comments', (req, res) => {
-    Comment.create({
-        header: req.body.header,
-        content: req.body.content,
-        date: req.body.date
-    })
-        .then(comment => {
-            console.log('New comment =>>', comment);
-            res.json({ comment: comment });
+app.post('/posts/:id/comments', (req, res) => {
+    Post.findById(req.params.id)
+    .then(post => {
+        console.log('Heyyy, this is the post', post);
+        // create and pust comment inside of post
+        Comment.create({
+            header: req.body.header,
+            content: req.body.content
         })
-        .catch(error => {
-            console.log('error', error)
-            res.json({ message: "Error ocurred, please try again" })
+        .then(comment => {
+            post.comments.push(comment);
+            // save the post
+            post.save();
+            res.redirect(`/posts/${req.params.id}`);
+        })
+        .catch(error => { 
+            console.log('error', error);
+            res.json({ message: "Error ocurred, please try again" });
         });
+    })
+    .catch(error => { 
+        console.log('error', error);
+        res.json({ message: "Error ocurred, please try again" });
+    });
 });
 
 // Update one comment (by header) route
